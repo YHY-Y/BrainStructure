@@ -13,7 +13,7 @@ export const createEmptyDiary = (date: string): BrainDiary => ({
   ownerName: "",
   mood: undefined,
   memo: "",
-  thoughts: [{ id: `thought-${Date.now()}`, text: "", percentage: 100, color: PALETTE[0], emoji: "" }],
+  thoughts: [{ id: `thought-initial-${date}`, text: "", percentage: 100, color: PALETTE[0], emoji: "" }],
 });
 
 export const createThought = (index: number): Thought => ({

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Brain Diary">
+  <rect width="64" height="64" rx="16" fill="#f4efe5"/>
+  <path d="M17 35c-5-3-4-10 0-12-1-6 5-11 10-9 3-5 11-4 13 1 6-2 11 3 10 8 4 3 3 10-1 12-1 6-8 8-12 5-4 4-11 2-12-2-3 1-6 0-8-3Z" fill="#f6bfc3" stroke="#3f4540" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M32 15v25M18 24c5 1 7 4 8 8m22-9c-5 1-8 4-9 9" fill="none" stroke="#3f4540" stroke-width="2" stroke-linecap="round"/>
+</svg>

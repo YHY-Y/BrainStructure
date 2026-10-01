@@ -11,7 +11,7 @@ import { ThoughtCard } from "@/components/ThoughtCard";
 import { useBrainDiary } from "@/hooks/useBrainDiary";
 
 export default function Home() {
-  const { diary, hydrated, saveStatus, lastSaved, changeDate, updateThought, addThought, removeThought, updateMeta, copyYesterday, clearAll } = useBrainDiary();
+  const { diary, saveStatus, lastSaved, changeDate, updateThought, addThought, removeThought, updateMeta, copyYesterday, clearAll } = useBrainDiary();
   const exportRef = useRef<HTMLDivElement>(null);
   const [notice, setNotice] = useState("");
   const [exporting, setExporting] = useState(false);
@@ -32,8 +32,6 @@ export default function Home() {
       link.download = `brain-diary-${diary.date}.png`; link.href = dataUrl; link.click();
     } finally { setExporting(false); }
   };
-
-  if (!hydrated) return <main className="loading">오늘의 마음을 펼치는 중…</main>;
 
   return (
     <main>
