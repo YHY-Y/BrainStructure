@@ -37,7 +37,6 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
   verification: {
-    google: process.env.GOOGLE_SITE_VERIFICATION,
     other: process.env.NAVER_SITE_VERIFICATION ? { "naver-site-verification": [process.env.NAVER_SITE_VERIFICATION] } : undefined,
   },
 };
@@ -60,6 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ko">
       <head>
+        <meta name="google-site-verification" content="hG7QKd6ys4akp6rw2FAHURhK93UVPgmqziyMLl8GpAU" />
         {/* Google AdSense */}
         <script
           async

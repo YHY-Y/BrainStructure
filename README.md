@@ -11,7 +11,7 @@ npm run dev
 
 브라우저에서 `http://localhost:3000`을 열어 사용합니다. 기록은 날짜별로 브라우저 `localStorage`에 자동 저장되며 서버로 전송되지 않습니다.
 
-배포 전 `.env.example`을 참고해 `NEXT_PUBLIC_SITE_URL`에 실제 공개 URL을 설정하세요. 해당 값은 canonical URL, `robots.txt`, `sitemap.xml`, 구조화 데이터에 사용됩니다. Search Console과 네이버 서치어드바이저 소유권 확인 코드는 각각 `GOOGLE_SITE_VERIFICATION`, `NAVER_SITE_VERIFICATION`으로 설정할 수 있습니다.
+배포 전 `.env.example`을 참고해 `NEXT_PUBLIC_SITE_URL`에 실제 공개 URL을 설정하세요. 해당 값은 canonical URL, `robots.txt`, `sitemap.xml`, 구조화 데이터에 사용됩니다. 네이버 서치어드바이저 소유권 확인 코드는 `NAVER_SITE_VERIFICATION`으로 설정할 수 있으며, Google Search Console 확인 태그는 루트 레이아웃에 등록되어 있습니다.
 
 ## 주요 기능
 
