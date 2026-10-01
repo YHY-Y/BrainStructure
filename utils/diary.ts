@@ -34,7 +34,7 @@ export const getStoredDiary = (date: string): BrainDiary | null => {
     const raw = localStorage.getItem(`${STORAGE_PREFIX}${date}`);
     if (!raw) return null;
     const parsed: unknown = JSON.parse(raw);
-    return isDiary(parsed) ? parsed : null;
+    return isDiary(parsed) ? { ...parsed, thoughts: parsed.thoughts.slice(0, 8) } : null;
   } catch {
     return null;
   }

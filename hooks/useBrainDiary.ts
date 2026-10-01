@@ -43,7 +43,7 @@ export function useBrainDiary() {
   }, []);
 
   const addThought = useCallback(() => {
-    setDiary((current) => current.thoughts.length >= 10 ? current : ({ ...current, thoughts: [...current.thoughts, createThought(current.thoughts.length)] }));
+    setDiary((current) => current.thoughts.length >= 8 ? current : ({ ...current, thoughts: [...current.thoughts, createThought(current.thoughts.length)] }));
   }, []);
 
   const removeThought = useCallback((id: string) => {

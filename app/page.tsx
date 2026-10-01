@@ -61,10 +61,10 @@ export default function Home() {
           </section>
 
           <section className="editor-panel">
-            <div className="section-heading"><div><span className="eyebrow">WHAT&apos;S ON YOUR MIND?</span><h2>머릿속 생각들</h2></div><span className="count">{diary.thoughts.length} / 10</span></div>
+            <div className="section-heading"><div><span className="eyebrow">WHAT&apos;S ON YOUR MIND?</span><h2>머릿속 생각들</h2></div><span className="count">{diary.thoughts.length} / 8</span></div>
             <p className="section-description">각 생각이 차지하는 비중을 정해보세요. 합계가 100%가 되면 완성!</p>
             <div className="thought-list">{diary.thoughts.map((thought, index) => <ThoughtCard key={thought.id} thought={thought} index={index} canDelete={diary.thoughts.length > 1} onChange={(patch) => updateThought(thought.id, patch)} onDelete={() => removeThought(thought.id)} />)}</div>
-            <button className="add-button" onClick={addThought} disabled={diary.thoughts.length >= 10}><Plus size={18} /> 생각 하나 더 추가하기</button>
+            <button className="add-button" onClick={addThought} disabled={diary.thoughts.length >= 8}><Plus size={18} /> 생각 하나 더 추가하기</button>
           </section>
         </div>
 

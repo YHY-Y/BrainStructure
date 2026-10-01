@@ -1,41 +1,69 @@
+"use client";
+
+import { useId, useLayoutEffect, useRef } from "react";
 import type { BrainDiary } from "@/types/diary";
-import { BRAIN_PATH, buildBrainCells } from "@/utils/brainLayout";
+import { BRAIN_PATH, HEAD_PATH, buildBrainBlobs } from "@/utils/brainLayout";
 
 type Props = { diary: BrainDiary; compact?: boolean };
 
+function splitLabel(label: string) {
+  if (label.length <= 6) return [label];
+  const space = label.lastIndexOf(" ", Math.ceil(label.length / 2));
+  const pivot = space > 1 ? space : Math.ceil(label.length / 2);
+  return [label.slice(0, pivot).trim(), label.slice(space > 1 ? pivot + 1 : pivot).trim()];
+}
+
 export function BrainCanvas({ diary, compact = false }: Props) {
-  const cells = buildBrainCells(diary.thoughts);
+  const blobs = buildBrainBlobs(diary.thoughts.slice(0, 8));
+  const clipId = `brain-${useId().replaceAll(":", "")}`;
+  const textRefs = useRef(new Map<string, SVGTextElement>());
+
+  useLayoutEffect(() => {
+    blobs.forEach((blob) => {
+      const text = textRefs.current.get(blob.id);
+      if (!text) return;
+      const maxWidth = blob.rx * 1.42;
+      const maxHeight = blob.ry * 1.25;
+      let size = Math.min(19, Math.max(10, blob.rx * 0.24));
+      text.setAttribute("font-size", String(size));
+      // 실제 SVG glyph 크기를 측정하고 blob의 안전 영역 안에 들 때까지 축소합니다.
+      while (size > 8) {
+        const box = text.getBBox();
+        if (box.width <= maxWidth && box.height <= maxHeight) break;
+        size -= 1;
+        text.setAttribute("font-size", String(size));
+      }
+    });
+  }, [blobs]);
+
   return (
-    <svg className="brain-svg" viewBox="0 0 520 380" role="img" aria-label="입력한 생각 비율로 구성된 오늘의 뇌구조">
-      <defs>
-        <clipPath id={compact ? "brain-clip-export" : "brain-clip"}><path d={BRAIN_PATH} /></clipPath>
-        <filter id={compact ? "soft-shadow-export" : "soft-shadow"} x="-20%" y="-20%" width="140%" height="150%">
-          <feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#41372e" floodOpacity=".12" />
-        </filter>
-      </defs>
-      <g filter={`url(#${compact ? "soft-shadow-export" : "soft-shadow"})`}>
-        <g clipPath={`url(#${compact ? "brain-clip-export" : "brain-clip"})`}>
-          {cells.map((cell, index) => {
-            const left = cell.x - 8;
-            const wave = index % 2 === 0 ? 12 : -12;
-            const path = `M${left} 20 L${left + cell.width + 16} 20 L${left + cell.width + 16 + wave} 115 L${left + cell.width + 8 - wave} 205 L${left + cell.width + 16 + wave} 370 L${left} 370 Z`;
-            return <path key={cell.id} d={path} fill={cell.color} stroke="#4d443e" strokeWidth="2.2" strokeLinejoin="round" />;
-          })}
-          <path d="M72 155 C115 119 130 177 171 141 S239 123 260 153 S320 181 354 142 S414 130 452 160 M70 233 C114 207 139 252 178 224 S239 201 271 232 S340 252 370 220 S423 212 457 239" fill="none" stroke="#fff" strokeOpacity=".45" strokeWidth="4" strokeLinecap="round" />
-        </g>
-        <path d={BRAIN_PATH} fill="none" stroke="#3f3935" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+    <svg className="brain-svg brain-profile" viewBox="0 0 520 550" role="img" aria-label="사람 옆모습의 뇌 영역에 배치된 오늘의 생각">
+      <defs><clipPath id={clipId}><path d={BRAIN_PATH} /></clipPath></defs>
+      <path d={HEAD_PATH} className="head-outline" />
+      <path d={BRAIN_PATH} className="brain-paper" />
+      <g clipPath={`url(#${clipId})`}>
+        {blobs.map((blob) => (
+          <g key={blob.id}>
+            <path d={blob.path} className="blob-gap" />
+            <path d={blob.path} fill={blob.color} className="thought-blob" />
+          </g>
+        ))}
       </g>
-      {cells.map((cell) => {
-        const small = cell.width < 68;
-        const label = cell.text.trim() || "나의 생각";
+      <path d={BRAIN_PATH} className="brain-outline" />
+      {blobs.map((blob) => {
+        const label = blob.text.trim() || "나의 생각";
+        const lines = splitLabel(label);
         return (
-          <g key={`label-${cell.id}`} transform={`translate(${Math.min(452, Math.max(68, cell.centerX))}, 193)`} className="brain-label">
-            {!small && cell.emoji && <text y="-25" textAnchor="middle" fontSize="25">{cell.emoji}</text>}
-            <text y={small || !cell.emoji ? -1 : 7} textAnchor="middle" fontSize={small ? "12" : "16"} fontWeight="700" fill="#302b27">{label.length > (small ? 4 : 8) ? `${label.slice(0, small ? 4 : 8)}…` : label}</text>
-            {!small && <text y="30" textAnchor="middle" fontSize="13" fontWeight="600" fill="#625952">{cell.percentage}%</text>}
+          <g key={`label-${blob.id}`} transform={`translate(${blob.cx} ${blob.cy})`} className="brain-label" pointerEvents="none">
+            {blob.emoji && <text className="blob-emoji" y={lines.length > 1 ? -25 : -21} textAnchor="middle" fontSize={blob.ry < 40 ? 14 : 21}>{blob.emoji}</text>}
+            <text ref={(node) => { if (node) textRefs.current.set(blob.id, node); else textRefs.current.delete(blob.id); }} className="blob-keyword" textAnchor="middle" dominantBaseline="middle" fontSize="16">
+              {lines.map((line, index) => <tspan key={line + index} x="0" dy={index === 0 ? (lines.length > 1 ? "-0.48em" : "0") : "1.05em"}>{line}</tspan>)}
+            </text>
+            <text className="blob-percent" y={lines.length > 1 ? 29 : 23} textAnchor="middle">{blob.percentage}%</text>
           </g>
         );
       })}
+      {!compact && <text x="345" y="370" className="profile-note">오늘 내 머릿속</text>}
     </svg>
   );
 }
