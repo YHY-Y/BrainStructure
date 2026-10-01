@@ -2,7 +2,7 @@
 
 import { useId, useLayoutEffect, useRef } from "react";
 import type { BrainDiary } from "@/types/diary";
-import { BRAIN_PATH, HEAD_PATH, buildBrainBlobs } from "@/utils/brainLayout";
+import { BRAIN_PATH, FACE_DETAIL_PATH, HEAD_PATH, buildBrainBlobs } from "@/utils/brainLayout";
 
 type Props = { diary: BrainDiary; compact?: boolean };
 
@@ -37,9 +37,10 @@ export function BrainCanvas({ diary, compact = false }: Props) {
   }, [blobs]);
 
   return (
-    <svg className="brain-svg brain-profile" viewBox="0 0 520 550" role="img" aria-label="사람 옆모습의 뇌 영역에 배치된 오늘의 생각">
+    <svg className="brain-svg brain-profile" viewBox="0 0 520 430" role="img" aria-label="사람 옆모습의 뇌 영역에 배치된 오늘의 생각">
       <defs><clipPath id={clipId}><path d={BRAIN_PATH} /></clipPath></defs>
       <path d={HEAD_PATH} className="head-outline" fill="none" stroke="#62798a" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={FACE_DETAIL_PATH} fill="none" stroke="#62798a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
       <path d={BRAIN_PATH} className="brain-paper" fill="#fffdf7" stroke="none" />
       <g clipPath={`url(#${clipId})`}>
         {blobs.map((blob) => (
@@ -63,7 +64,7 @@ export function BrainCanvas({ diary, compact = false }: Props) {
           </g>
         );
       })}
-      {!compact && <text x="345" y="370" className="profile-note">오늘 내 머릿속</text>}
+      {!compact && <text x="330" y="395" className="profile-note">오늘 내 머릿속</text>}
     </svg>
   );
 }
