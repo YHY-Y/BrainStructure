@@ -39,17 +39,17 @@ export function BrainCanvas({ diary, compact = false }: Props) {
   return (
     <svg className="brain-svg brain-profile" viewBox="0 0 520 550" role="img" aria-label="사람 옆모습의 뇌 영역에 배치된 오늘의 생각">
       <defs><clipPath id={clipId}><path d={BRAIN_PATH} /></clipPath></defs>
-      <path d={HEAD_PATH} className="head-outline" />
-      <path d={BRAIN_PATH} className="brain-paper" />
+      <path d={HEAD_PATH} className="head-outline" fill="none" stroke="#62798a" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d={BRAIN_PATH} className="brain-paper" fill="#fffdf7" stroke="none" />
       <g clipPath={`url(#${clipId})`}>
         {blobs.map((blob) => (
           <g key={blob.id}>
-            <path d={blob.path} className="blob-gap" />
-            <path d={blob.path} fill={blob.color} className="thought-blob" />
+            <path d={blob.path} className="blob-gap" fill="none" stroke="#fffdf7" strokeWidth="8" strokeLinejoin="round" />
+            <path d={blob.path} fill={blob.color} stroke="#62798a" strokeWidth="2.4" strokeLinejoin="round" className="thought-blob" />
           </g>
         ))}
       </g>
-      <path d={BRAIN_PATH} className="brain-outline" />
+      <path d={BRAIN_PATH} className="brain-outline" fill="none" stroke="#62798a" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" />
       {blobs.map((blob) => {
         const label = blob.text.trim() || "나의 생각";
         const lines = splitLabel(label);

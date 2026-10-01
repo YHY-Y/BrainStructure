@@ -48,6 +48,7 @@ main { min-height:100vh; background-image:radial-gradient(#d7d1c5 0.6px, transpa
 .blob-emoji { font-family:"Apple Color Emoji","Segoe UI Emoji",sans-serif; }
 .profile-note { fill:#8b776a; font:18px "Nanum Pen Script",cursive; transform:rotate(-4deg); transform-origin:345px 370px; }
 .brain-caption { max-width:80%; margin:-8px auto 13px; text-align:center; font:20px "Nanum Pen Script",cursive;color:#645b54;position:relative; }
+.brain-owner-title { margin:13px 0 -12px; font:22px "Gowun Dodum",sans-serif; letter-spacing:-.04em; z-index:1; }
 .doodle { position:absolute;color:#ad8772;font:28px "Nanum Pen Script"; }.doodle-one{top:15%;right:10%;transform:rotate(12deg)}.doodle-two{bottom:16%;left:9%;font-size:40px;transform:rotate(-18deg)}
 .total-card { margin:14px 2px 0; padding:15px 17px 13px;background:#faf8f3;border:1px solid #e2ddd3;border-radius:5px; }
 .total-card>div:first-child { display:flex;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:600; }
@@ -60,6 +61,11 @@ main { min-height:100vh; background-image:radial-gradient(#d7d1c5 0.6px, transpa
 .section-heading h2 { font:25px "Gowun Dodum",sans-serif;letter-spacing:-.04em;margin:4px 0 0; }
 .count,.optional { color:#8b837a;font-size:11px;background:#f1ede5;padding:5px 9px;border-radius:15px; }
 .section-description { margin:8px 0 20px; }
+.owner-field { display:grid; grid-template-columns:48px 1fr auto; align-items:center; gap:10px; margin:-4px 0 16px; padding:12px 14px; background:#f8f5ee; border:1px solid #e1dbd1; border-radius:5px; }
+.owner-field>span { font-size:11px; font-weight:700; }
+.owner-field input { min-width:0; border:0; border-bottom:1px solid #cfc7bc; background:transparent; padding:7px 3px; font-size:12px; outline:none; }
+.owner-field input:focus { border-color:#62798a; }
+.owner-field small { color:#999087; font-size:9px; }
 .thought-list { display:grid;gap:12px; }
 .thought-card { border:1px solid #ded8cf;border-radius:5px;padding:14px 15px 15px;background:#fff;transition:box-shadow .2s; }
 .thought-card:focus-within { box-shadow:0 5px 20px rgba(74,61,46,.08);border-color:#c4baad; }

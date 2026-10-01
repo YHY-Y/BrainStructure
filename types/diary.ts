@@ -8,6 +8,7 @@ export type Thought = {
 
 export type BrainDiary = {
   date: string;
+  ownerName: string;
   mood?: string;
   memo: string;
   thoughts: Thought[];

@@ -10,6 +10,7 @@ export const formatLocalDate = (date: Date) => {
 
 export const createEmptyDiary = (date: string): BrainDiary => ({
   date,
+  ownerName: "",
   mood: undefined,
   memo: "",
   thoughts: [{ id: `thought-${Date.now()}`, text: "", percentage: 100, color: PALETTE[0], emoji: "" }],
@@ -34,7 +35,15 @@ export const getStoredDiary = (date: string): BrainDiary | null => {
     const raw = localStorage.getItem(`${STORAGE_PREFIX}${date}`);
     if (!raw) return null;
     const parsed: unknown = JSON.parse(raw);
-    return isDiary(parsed) ? { ...parsed, thoughts: parsed.thoughts.slice(0, 8) } : null;
+    if (!isDiary(parsed)) return null;
+    const thoughts = parsed.thoughts.slice(0, 8);
+    let remaining = 100;
+    const cappedThoughts = thoughts.map((thought) => {
+      const percentage = Math.min(remaining, Math.max(0, Number(thought.percentage) || 0));
+      remaining -= percentage;
+      return { ...thought, percentage };
+    });
+    return { ...parsed, ownerName: typeof parsed.ownerName === "string" ? parsed.ownerName : "", thoughts: cappedThoughts };
   } catch {
     return null;
   }

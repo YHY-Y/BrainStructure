@@ -50,7 +50,7 @@ export function useBrainDiary() {
     setDiary((current) => current.thoughts.length <= 1 ? current : ({ ...current, thoughts: current.thoughts.filter((item) => item.id !== id) }));
   }, []);
 
-  const updateMeta = useCallback((patch: Partial<Pick<BrainDiary, "mood" | "memo">>) => {
+  const updateMeta = useCallback((patch: Partial<Pick<BrainDiary, "ownerName" | "mood" | "memo">>) => {
     setDiary((current) => ({ ...current, ...patch }));
   }, []);
 

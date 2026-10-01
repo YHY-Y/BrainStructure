@@ -1,9 +1,10 @@
 import { GripVertical, Trash2 } from "lucide-react";
 import type { Thought } from "@/types/diary";
 
-type Props = { thought: Thought; index: number; canDelete: boolean; onChange: (patch: Partial<Thought>) => void; onDelete: () => void };
+type Props = { thought: Thought; index: number; canDelete: boolean; maxPercentage: number; onChange: (patch: Partial<Thought>) => void; onDelete: () => void };
 
-export function ThoughtCard({ thought, index, canDelete, onChange, onDelete }: Props) {
+export function ThoughtCard({ thought, index, canDelete, maxPercentage, onChange, onDelete }: Props) {
+  const setPercentage = (value: number) => onChange({ percentage: Math.min(maxPercentage, Math.max(0, Number.isFinite(value) ? value : 0)) });
   return (
     <article className="thought-card">
       <div className="thought-card-head">
@@ -17,9 +18,9 @@ export function ThoughtCard({ thought, index, canDelete, onChange, onDelete }: P
       </div>
       <div className="percentage-row">
         <label htmlFor={`range-${thought.id}`}>머릿속 비중</label>
-        <div className="percent-input"><input type="number" min="0" max="100" value={thought.percentage} onChange={(e) => onChange({ percentage: Math.min(100, Math.max(0, Number(e.target.value))) })} aria-label="생각 비율" /><span>%</span></div>
+        <div className="percent-input"><input type="number" min="0" max={maxPercentage} value={thought.percentage} onChange={(e) => setPercentage(Number(e.target.value))} aria-label={`생각 비율, 최대 ${maxPercentage}%`} /><span>%</span></div>
       </div>
-      <input id={`range-${thought.id}`} className="range" type="range" min="0" max="100" value={thought.percentage} onChange={(e) => onChange({ percentage: Number(e.target.value) })} style={{ "--range-color": thought.color } as React.CSSProperties} />
+      <input id={`range-${thought.id}`} className="range" type="range" min="0" max={maxPercentage} value={thought.percentage} onChange={(e) => setPercentage(Number(e.target.value))} style={{ "--range-color": thought.color } as React.CSSProperties} />
     </article>
   );
 }

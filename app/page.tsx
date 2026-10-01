@@ -51,7 +51,7 @@ export default function Home() {
         <div className="workspace">
           <section className="preview-panel">
             <div className="panel-label"><span>LIVE PREVIEW</span><i>입력과 동시에 바뀌어요</i></div>
-            <div className="brain-frame"><div className="paper-tape" /><BrainCanvas diary={diary} /><p className="brain-caption">{diary.memo || "오늘 머릿속에서 가장 큰 자리를 차지한 것은 무엇인가요?"}</p><span className="doodle doodle-one">✦</span><span className="doodle doodle-two">⌁</span></div>
+            <div className="brain-frame"><div className="paper-tape" /><h2 className="brain-owner-title">{diary.ownerName.trim() || "나"}의 뇌구조</h2><BrainCanvas diary={diary} /><p className="brain-caption">{diary.memo || "오늘 머릿속에서 가장 큰 자리를 차지한 것은 무엇인가요?"}</p><span className="doodle doodle-one">✦</span><span className="doodle doodle-two">⌁</span></div>
             <div className={`total-card ${isValid ? "valid" : "invalid"}`}>
               <div><span>생각 비율 합계</span><strong>{total}<small>%</small></strong></div>
               <div className="total-bar"><span style={{ width: `${Math.min(total, 100)}%` }} /></div>
@@ -63,7 +63,8 @@ export default function Home() {
           <section className="editor-panel">
             <div className="section-heading"><div><span className="eyebrow">WHAT&apos;S ON YOUR MIND?</span><h2>머릿속 생각들</h2></div><span className="count">{diary.thoughts.length} / 8</span></div>
             <p className="section-description">각 생각이 차지하는 비중을 정해보세요. 합계가 100%가 되면 완성!</p>
-            <div className="thought-list">{diary.thoughts.map((thought, index) => <ThoughtCard key={thought.id} thought={thought} index={index} canDelete={diary.thoughts.length > 1} onChange={(patch) => updateThought(thought.id, patch)} onDelete={() => removeThought(thought.id)} />)}</div>
+            <label className="owner-field"><span>이름</span><input value={diary.ownerName} maxLength={12} onChange={(event) => updateMeta({ ownerName: event.target.value })} placeholder="이름을 입력해주세요" /><small>뇌구조 제목에 표시돼요</small></label>
+            <div className="thought-list">{diary.thoughts.map((thought, index) => <ThoughtCard key={thought.id} thought={thought} index={index} canDelete={diary.thoughts.length > 1} maxPercentage={100 - total + thought.percentage} onChange={(patch) => updateThought(thought.id, patch)} onDelete={() => removeThought(thought.id)} />)}</div>
             <button className="add-button" onClick={addThought} disabled={diary.thoughts.length >= 8}><Plus size={18} /> 생각 하나 더 추가하기</button>
           </section>
         </div>
