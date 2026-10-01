@@ -38,7 +38,7 @@ export function BrainCanvas({ diary, compact = false }: Props) {
 
   return (
     <svg className="brain-svg brain-profile" viewBox="0 0 520 430" role="img" aria-label="사람 옆모습의 뇌 영역에 배치된 오늘의 생각">
-      <defs><clipPath id={clipId}><path d={BRAIN_PATH} /></clipPath></defs><g transform="translate(-26 -21.5) scale(1.1)">
+      <defs><clipPath id={clipId}><path d={BRAIN_PATH} /></clipPath></defs>
       <path d={HEAD_PATH} className="head-outline" fill="none" stroke="#62798a" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" />
       <path d={FACE_DETAIL_PATH} fill="none" stroke="#62798a" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
       <path d={BRAIN_PATH} className="brain-paper" fill="#fffdf7" stroke="none" />
